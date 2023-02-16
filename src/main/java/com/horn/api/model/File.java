@@ -1,6 +1,6 @@
 package com.horn.api.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Data
@@ -16,7 +18,7 @@ import lombok.Data;
 @Table(name="file")
 public class File {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private String name;
@@ -29,9 +31,12 @@ public class File {
 	
 	private Long size;
 	
-	@Column(name="created_at")
-	private Date createdAt;
+	@Column(name="created_at", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt = new Date();
 	
 	@Column(name="updated_at")
-	private Date updatedAt;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updatedAt = new Date();
+	
 }

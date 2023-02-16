@@ -7,5 +7,5 @@ import com.horn.api.model.Extension;
 
 @Repository
 public interface ExtensionRepository  extends CrudRepository<Extension, Long>{
-
+	Extension findByName(String name);
 }

@@ -3,6 +3,7 @@ package com.horn.api.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.horn.api.model.Extension;
@@ -30,7 +31,20 @@ public class ExtensionService {
 	
 	public Extension saveExtension(Extension extension) {
 		extension.setName(extension.getName().trim().toLowerCase());
-		Extension savedExtension = repository.save(extension);
+		Extension savedExtension;
+		try {
+			savedExtension = repository.save(extension);
+		} catch (DataIntegrityViolationException e) {
+			savedExtension = repository.findByName(extension.getName());
+		}
 		return savedExtension;
+	}
+	
+	public Extension saveOrGetExtension(Extension extension) {
+		try {
+			return saveExtension(extension);
+		} catch (Exception e) {
+			return repository.findByName(extension.getName());
+		}
 	}
 }

@@ -7,5 +7,5 @@ import com.horn.api.model.Directory;
 
 @Repository
 public interface DirectoryRepository  extends CrudRepository<Directory, Long>{
-
+	Directory getByName(String name);
 }
