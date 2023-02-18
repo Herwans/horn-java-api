@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_DATABASE: horn
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: hornuser
+      MARIADB_PASSWORD: hornpassword
+      MARIADB_ROOT_HOST: localhost
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+# Names our volume
+volumes:
+  my-db:
