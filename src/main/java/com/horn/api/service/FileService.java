@@ -33,6 +33,14 @@ public class FileService {
 	public Optional<File> getFile(final Long id) {
 		return repository.findById(id);
 	}
+	
+	public String getFilePath(final Long id) {
+		File file = getFile(id).get();
+		
+		String path = file.getDirectory().getName() + "/" + file.getName() + "." + file.getExtension().getName();
+		
+		return path;
+	}
 
 	public Iterable<File> getFiles() {
 		return repository.findAll();
