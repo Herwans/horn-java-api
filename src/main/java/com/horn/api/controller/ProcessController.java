@@ -26,7 +26,6 @@ public class ProcessController {
 		try {
 			explorerService.walkAndSave(filepath);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
