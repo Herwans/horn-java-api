@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.horn.api.helper.FileHelper;
@@ -39,39 +38,9 @@ public class FileController {
 		return fileService.saveFile(filepath);
 	}
 
-	@GetMapping("/images/{id}")
-	@ResponseBody
-	public ResponseEntity<InputStreamResource> getImage(@PathVariable("id") final long id) {
-		String file = fileService.getFilePath(id);
-		MediaType contentType;
-
-		try {
-			InputStream input = FileHelper.fileToInputStream(file);
-
-			switch (FilenameUtils.getExtension(file)) {
-
-			case "png":
-				contentType = MediaType.IMAGE_PNG;
-				break;
-			case "gif":
-				contentType = MediaType.IMAGE_GIF;
-				break;
-			default:
-				contentType = MediaType.IMAGE_JPEG;
-				break;
-			}
-
-			return ResponseEntity.ok().contentType(contentType).body(new InputStreamResource(input));
-		} catch (IOException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
-	}
-
 	@GetMapping(value = "/videos/{id}")
 	public ResponseEntity<InputStreamResource> getVideo(@PathVariable("id") final long id) {
-		String file = fileService.getFilePath(id);
+		String file = fileService.getFile(id).get().getPath();
 		try {
 			InputStream input = FileHelper.fileToInputStream(file);
 

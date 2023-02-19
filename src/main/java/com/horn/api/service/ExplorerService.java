@@ -7,8 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.horn.api.helper.FileHelper;
+import com.horn.api.model.File;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ExplorerService {
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private MediaImageService mediaImageService;
 	
 	public List<Path> getAllFilesAsPath(String startingPoint) throws IOException {
 		List<Path> result = new ArrayList<Path>();
@@ -51,9 +58,8 @@ public class ExplorerService {
 		    try {
 		        if(itr.hasNext()) {
 		        	Path current = itr.next();
-		        	if(Files.isRegularFile(current)) {
+		        	if(Files.isRegularFile(current) && FilenameUtils.getBaseName(current.toString()) != "") {
 		        		fileService.saveFile(current.toString());
-						//result.add(current.toString());	
 		        	}
 		        } else {
 		            break;
@@ -62,6 +68,22 @@ public class ExplorerService {
 		    	log.error(e.getMessage());
 		    }
 		}
-		//fileService.saveAllFiles(result);
+	}
+	
+	public void sortFile(File file) throws IOException {
+		if (FileHelper.isImage(file.getPath()))
+		{
+			mediaImageService.saveMedia(file);
+		}
+	}
+	
+	public void sortFiles() {
+		for (File file: fileService.getFiles()) {
+			try {
+				sortFile(file);
+			} catch (Exception e) {
+				System.out.println("File skipped : " + file.getPath());
+			}
+		}
 	}
 }
