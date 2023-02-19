@@ -44,34 +44,39 @@ public class FileHelper {
 	/**
 	 * Gets image dimensions for given file
 	 * 
-	 * @param imgFile image file
+	 * @param imageFile image file
 	 * @return dimensions of image
 	 * @throws IOException if the file is not a known image
 	 */
-	public static Dimension getImageDimension(File imgFile) throws IOException {
-		int pos = imgFile.getName().lastIndexOf(".");
+	public static Dimension getImageDimension(File imageFile) throws IOException {
+		int pos = imageFile.getName().lastIndexOf(".");
 		if (pos == -1)
-			throw new IOException("No extension for file: " + imgFile.getAbsolutePath());
-		String suffix = imgFile.getName().substring(pos + 1);
+			throw new IOException("No extension for file: " + imageFile.getAbsolutePath());
+		String suffix = imageFile.getName().substring(pos + 1);
 		Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
 		while (iter.hasNext()) {
-			ImageReader reader = iter.next();
+			ImageReader imageReader = iter.next();
 			try {
-				ImageInputStream stream = new FileImageInputStream(imgFile);
-				reader.setInput(stream);
-				int width = reader.getWidth(reader.getMinIndex());
-				int height = reader.getHeight(reader.getMinIndex());
+				ImageInputStream imageInputStream = new FileImageInputStream(imageFile);
+				imageReader.setInput(imageInputStream);
+				int width = imageReader.getWidth(imageReader.getMinIndex());
+				int height = imageReader.getHeight(imageReader.getMinIndex());
 				return new Dimension(width, height);
 			} catch (IOException e) {
-				log.warn("Error reading: " + imgFile.getAbsolutePath(), e);
+				log.warn("Error reading: " + imageFile.getAbsolutePath(), e);
 			} finally {
-				reader.dispose();
+				imageReader.dispose();
 			}
 		}
 
-		throw new IOException("Not a known image file: " + imgFile.getAbsolutePath());
+		throw new IOException("Not an image");
 	}
 
+	/**
+	 * Gets the mime type of the file
+	 * @param file
+	 * @return
+	 */
 	public static String getMediaMimeType(String file) {
 		try (FileInputStream fis = new FileInputStream(file)) {
 			return tika.detect(fis, file);
@@ -80,10 +85,14 @@ public class FileHelper {
 		}
 	}
 
+	/**
+	 * Returns if the file is an image based on the file's mime type
+	 * @param file
+	 * @return true if the mime type start with "image"
+	 */
 	public static boolean isImage(String file) {
 		String mime = getMediaMimeType(file);
 		return mime.contains("/") && mime.split("/")[0].equalsIgnoreCase("image");
-
 	}
 	
 	public static boolean isVideo(String file) {
