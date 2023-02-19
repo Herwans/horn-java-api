@@ -39,4 +39,7 @@ public class File {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedAt = new Date();
 	
+	public String getPath() {
+		return directory.getName() + "/" + name + "." + extension.getName();
+	}
 }

@@ -29,4 +29,10 @@ public class ProcessController {
 			e.printStackTrace();
 		}
 	}
+	
+	@Async
+	@PostMapping("/sort")
+	public void sortFiles() {
+		explorerService.sortFiles();
+	}
 }
