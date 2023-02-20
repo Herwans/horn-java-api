@@ -1,5 +1,7 @@
-package com.horn.api.model;
+package com.horn.api.model.video;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.horn.api.model.MediaFile;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -14,8 +18,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "media_image")
-public class MediaImage {
+@Table(name = "media_video")
+public class MediaVideo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,15 +28,26 @@ public class MediaImage {
     @JoinColumn(unique = true)
     private MediaFile file;
 
-    private Integer width;
+    private String title;
 
-    private Integer height;
+    private Long duration;
+
+    @OneToMany(
+            mappedBy = "video",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnoreProperties("video")
+    @ToString.Exclude
+    private List<PlaylistVideos> maps = new ArrayList<PlaylistVideos>();
+
+    // TODO add language management
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        MediaImage that = (MediaImage) o;
+        MediaVideo that = (MediaVideo) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
