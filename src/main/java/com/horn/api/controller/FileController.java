@@ -17,7 +17,7 @@ public class FileController {
 	private FileService fileService;
 
 	@GetMapping
-	public Iterable<File> getExtensions() {
+	public Iterable<File> getFiles() {
 		return fileService.getFiles();
 	}
 

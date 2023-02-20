@@ -1,4 +1,4 @@
-package com.horn.api.Helper;
+package com.horn.api.helper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,9 +26,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.horn.api.helper.FileHelper;
 import com.horn.api.model.util.Dimension;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = { FileHelper.class })
-@EnableConfigurationProperties
 public class FileHelperTest {
 	@BeforeAll
 	public static void setup() {
