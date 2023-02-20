@@ -27,6 +27,9 @@ public class ExplorerService {
 	@Autowired
 	private MediaImageService mediaImageService;
 	
+	@Autowired
+	private MediaVideoService mediaVideoService;
+	
 	public List<Path> getAllFilesAsPath(String startingPoint) throws IOException {
 		List<Path> result = new ArrayList<Path>();
 		Path rootPath = Path.of(startingPoint);
@@ -74,11 +77,13 @@ public class ExplorerService {
 		if (FileHelper.isImage(file.getPath()))
 		{
 			mediaImageService.saveMedia(file);
+		} else if (FileHelper.isVideo(file.getPath())) {
+			mediaVideoService.saveMedia(file);
 		}
 	}
 	
 	public void sortFiles() {
-		for (File file: fileService.getFiles()) {
+		for (File file: fileService.getUnsortedFiles()) {
 			try {
 				sortFile(file);
 			} catch (Exception e) {

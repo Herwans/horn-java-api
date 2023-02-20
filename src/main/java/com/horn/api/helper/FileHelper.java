@@ -85,4 +85,10 @@ public class FileHelper {
 		return mime.contains("/") && mime.split("/")[0].equalsIgnoreCase("image");
 
 	}
+	
+	public static boolean isVideo(String file) {
+		String mime = getMediaMimeType(file);
+		return mime.contains("/") && mime.split("/")[0].equalsIgnoreCase("video");
+
+	}
 }

@@ -37,6 +37,11 @@ public class FileService {
 	public Iterable<File> getFiles() {
 		return repository.findAll();
 	}
+	
+	public Iterable<File> getUnsortedFiles() {
+		// TODO Implement it
+		return repository.findAll();
+	}
 
 	public void deleteFile(final Long id) {
 		repository.deleteById(id);

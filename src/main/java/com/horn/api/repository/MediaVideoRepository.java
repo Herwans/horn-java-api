@@ -3,8 +3,9 @@ package com.horn.api.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.horn.api.model.File;
+import com.horn.api.model.MediaVideo;
 
 @Repository
-public interface FileRepository  extends CrudRepository<File, Long>{
+public interface MediaVideoRepository  extends CrudRepository<MediaVideo, Long>{
+	
 }
