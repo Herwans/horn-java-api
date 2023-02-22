@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.horn.api.helper.FileHelper;
 import com.horn.api.model.File;
 import com.horn.api.model.MediaVideo;
+import com.horn.api.model.video.Playlist;
 import com.horn.api.repository.FileRepository;
 import com.horn.api.repository.MediaVideoRepository;
+import com.horn.api.repository.video.PlaylistRepository;
 
 import lombok.Data;
 
