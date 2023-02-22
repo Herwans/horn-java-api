@@ -35,6 +35,14 @@ public class Playlist {
     @JsonIgnoreProperties("playlist")
 	private List<PlaylistVideos> maps = new ArrayList<PlaylistVideos>();
 	
+	@OneToMany(
+		    mappedBy = "playlist",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true
+		)
+    @JsonIgnoreProperties("playlist")
+	private List<SagaPlaylists> maps_saga = new ArrayList<SagaPlaylists>();
+	
 	public Playlist(String title) {
 		this.title = title;
 	}

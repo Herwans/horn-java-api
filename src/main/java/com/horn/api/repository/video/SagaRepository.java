@@ -7,5 +7,4 @@ import com.horn.api.model.video.Saga;
 
 @Repository
 public interface SagaRepository extends CrudRepository<Saga, Long>{
-	
 }
