@@ -1,5 +1,7 @@
 package com.horn.api.service.video;
 
+import com.horn.api.dto.retrieve.PlaylistDTO;
+import com.horn.api.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,10 @@ import com.horn.api.repository.video.PlaylistRepository;
 import com.horn.api.repository.video.PlaylistVideosRepository;
 import com.horn.api.service.MediaVideoService;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class PlaylistService {
 	@Autowired
@@ -21,29 +27,36 @@ public class PlaylistService {
 	
 	@Autowired
 	private MediaVideoService videoService;
-	
-	public Playlist create(Playlist playlist) {
-		return repository.save(playlist);
+
+	@Autowired
+	private Mapper mapper;
+
+	public PlaylistDTO create(Playlist playlist) {
+		return mapper.toDto(repository.save(playlist));
 	}
 	
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
 	
-	public Playlist addVideo(Long playlistId, PlaylistBody body) {
+	public PlaylistDTO addVideo(Long playlistId, PlaylistBody body) {
 		MediaVideo video = videoService.getMedium(body.videoId()).get();
 		Playlist playlist = repository.findById(playlistId).get();
 		
 		mapRepository.save(
 				new PlaylistVideos(video, playlist, body.position()));
-		
-		return playlist;
+
+		return mapper.toDto(playlist);
 	}
 
-	public Playlist removeVideo(Long playlistId, Long videoId) {
+	public PlaylistDTO removeVideo(Long playlistId, Long videoId) {
 		Playlist playlist = repository.findById(playlistId).get();
 		mapRepository.deleteByPlaylistIdAndVideoId(playlistId, videoId);
 		
-		return playlist;
+		return mapper.toDto(playlist);
+	}
+
+	public List<PlaylistDTO> findAllPlaylists() {
+		return repository.findAll().stream().map(mapper::toDto).collect(toList());
 	}
 }

@@ -38,7 +38,7 @@ public class FileHelper {
 		byte[] fileBytes = byteOutputStream.toByteArray();
 		ByteArrayInputStream byteInputStream = new ByteArrayInputStream(fileBytes);
 
-		return (InputStream) byteInputStream;
+		return byteInputStream;
 	}
 
 	/**

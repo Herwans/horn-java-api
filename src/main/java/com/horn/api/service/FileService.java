@@ -79,7 +79,7 @@ public class FileService {
 		file.setDirectory(dir);
 		file.setExtension(ext);
 		
-		System.out.println(file.toString());
+		System.out.println(file);
 		
 		return file;
 	}
