@@ -2,6 +2,7 @@ package com.horn.api.service;
 
 import com.horn.api.helper.FileHelper;
 import com.horn.api.model.MediaFile;
+import com.horn.api.service.image.MediaImageService;
 import com.horn.api.service.video.MediaVideoService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +77,7 @@ public class ExplorerService {
 
     public void sortFile(MediaFile file) throws IOException, TikaException, SAXException {
         if (FileHelper.isImage(file.getPath())) {
-            mediaImageService.saveMedia(file);
+            mediaImageService.saveImage(file);
         } else if (FileHelper.isVideo(file.getPath())) {
             mediaVideoService.saveVideo(file);
         }
@@ -88,6 +89,8 @@ public class ExplorerService {
                 sortFile(file);
             } catch (Exception e) {
                 log.error("File skipped : " + file.getPath());
+                log.error("Reason : " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }

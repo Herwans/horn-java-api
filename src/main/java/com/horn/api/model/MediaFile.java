@@ -38,6 +38,9 @@ public class MediaFile {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "thumbnail_id")
+    private Thumbnail thumbnail;
 
     public String getPath() {
         return directory.getName() + "/" + name + "." + extension.getName();

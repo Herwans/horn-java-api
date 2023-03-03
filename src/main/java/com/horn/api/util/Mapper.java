@@ -1,16 +1,16 @@
 package com.horn.api.util;
 
+import com.horn.api.dto.retrieve.ImageDTO;
 import com.horn.api.dto.retrieve.PlaylistDTO;
 import com.horn.api.dto.retrieve.SagaDTO;
 import com.horn.api.dto.retrieve.VideoDTO;
+import com.horn.api.helper.FileHelper;
+import com.horn.api.model.image.MediaImage;
 import com.horn.api.model.video.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -67,6 +67,23 @@ public class Mapper {
         result.createdAt = video.getFile().getCreatedAt();
         result.duration = video.getDuration();
         result.thumbnail = null;
+
+        return result;
+    }
+
+    public ImageDTO toDto(MediaImage image) {
+        ImageDTO result = new ImageDTO();
+
+        result.id = image.getId();
+        result.path = image.getFile().getPath();
+        result.title = image.getTitle();
+        result.createdAt = image.getFile().getCreatedAt();
+        try {
+            result.thumbnail = Base64.getEncoder().encodeToString(FileHelper.fileToByte(image.getFile().getThumbnail().getPath()));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            result.thumbnail = null;
+        }
 
         return result;
     }
