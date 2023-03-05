@@ -1,5 +1,6 @@
-package com.horn.api.model;
+package com.horn.api.model.image;
 
+import com.horn.api.model.MediaFile;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class MediaImage {
     @OneToOne
     @JoinColumn(unique = true)
     private MediaFile file;
+
+    private String title;
 
     private Integer width;
 

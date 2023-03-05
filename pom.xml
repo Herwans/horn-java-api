@@ -62,6 +62,11 @@
             <artifactId>tika-parser-audiovideo-module</artifactId>
             <version>2.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>co.elastic.thumbnails4j</groupId>
+            <artifactId>thumbnails4j-all</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
